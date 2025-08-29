@@ -5,7 +5,7 @@ import Link from "next/link";
 
 const Navbar = () => {
   return (
-    <div className="w-full flex items-center justify-center  m-auto fixed top-0   left-0 z-10   ">
+    <div className="w-full flex items-center justify-center  m-auto fixed top-0   left-0 z-[999]   ">
       <div className="flex items-center justify-between w-full max-w-6xl !px-4  m-auto">
         <Link href={"/"}>
           <Image
@@ -17,7 +17,7 @@ const Navbar = () => {
         </Link>
         <Link
           href={"/login/employee"}
-          className="text-custom-deep-blue  bg-white font-bold cursor-pointer rounded-2xl !px-4 !py-1 "
+          className="hover:bg-custom-deep-blue hover:text-white transition-all duration-300 text-custom-deep-blue  bg-white font-bold cursor-pointer rounded-2xl !px-4 !py-1 "
         >
           Login
         </Link>
