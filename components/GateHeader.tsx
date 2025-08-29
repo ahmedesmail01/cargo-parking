@@ -25,7 +25,7 @@ export function GateHeader({ gateName }: { gateName: string }) {
         >
           WS: {wsStatus}
         </Badge>
-        <span className="tabular-nums text-muted-foreground">{now}</span>
+        {/* <span className="tabular-nums text-muted-foreground">{now}</span> */}
       </div>
     </div>
   );

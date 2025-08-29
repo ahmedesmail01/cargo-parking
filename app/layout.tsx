@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import Providers from "./providers";
 import "./globals.css";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
   title: "Parking Reservation System",
@@ -14,8 +16,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className="min-h-screen bg-background text-foreground">
-        <Providers>{children}</Providers>
+      <body className="min-h-screen max-w-10xl m-auto bg-background text-foreground">
+        <Providers>
+          <Navbar />
+          {children}
+          <Footer />
+        </Providers>
       </body>
     </html>
   );
