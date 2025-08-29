@@ -131,4 +131,12 @@
 
 html {
   scroll-behavior: smooth;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.trucks-parking {
+  background-image: url("/images/trucks-parking.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
 }
