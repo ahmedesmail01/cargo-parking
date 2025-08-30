@@ -56,7 +56,7 @@ export function TicketModal() {
                 alt="App logo"
                 width={180}
                 height={44}
-                className="bg-custom-deep-blue !my-2 
+                className="bg-blue-950 !my-2 
                               !p-1 rounded-md shadow print:shadow-none"
                 aria-hidden
               />

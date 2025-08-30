@@ -18,6 +18,10 @@ export function CheckoutPanel() {
     setOpenScanQr(true);
   };
 
+  const handleCancel = () => {
+    setOpenScanQr(false);
+  };
+
   return (
     <div className="space-y-4">
       <div className="flex gap-2 items-start">
@@ -67,10 +71,13 @@ export function CheckoutPanel() {
       {isOpenScanQr && (
         <CustomModal
           open={isOpenScanQr}
-          handleCancel={() => setOpenScanQr(false)}
+          handleCancel={handleCancel}
           title="Scan QR To Mark Attendance "
         >
-          <QrScanner />
+          <QrScanner
+            setTicketId={setTicketId} // called when user closes (overlay click, ESC, etc.)
+            handleCancel={handleCancel}
+          />
         </CustomModal>
       )}
 

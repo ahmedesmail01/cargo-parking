@@ -31,7 +31,7 @@ const CustomModal: React.FC<CustomModalProps> = ({
     >
       <DialogContent
         // 1000px like AntD `width={1000}`, with mobile-friendly width
-        className="sm:max-w-[1000px] w-[calc(100vw-2rem)]"
+        className=" flex flex-col !p-4 items-center h-50Vh justify-center "
       >
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
