@@ -7,30 +7,35 @@ export function ZoneCard({
   zone,
   disabled,
   onSelect,
+  selectedZone,
 }: {
   zone: Zone;
   disabled?: boolean;
   onSelect?: (z: Zone) => void;
+  selectedZone: Zone | null;
 }) {
   return (
     <Card
       role="button"
       aria-disabled={disabled}
       onClick={() => !disabled && onSelect?.(zone)}
-      className={`!p-4 !space-y-2 ${
-        disabled
-          ? "opacity-50 pointer-events-none"
-          : "cursor-pointer hover:shadow"
-      }`}
+      className={`!p-4 !space-y-2
+        
+        ${selectedZone?.id === zone.id ? "bg-custom-orange text-white" : ""}
+        ${
+          disabled
+            ? "opacity-50 pointer-events-none"
+            : "cursor-pointer hover:shadow"
+        }`}
     >
       <div className="flex items-center justify-between">
         <div className="font-medium">{zone.name}</div>
         <div className="flex gap-2">
           <Badge
             className="!px-2 !py-1 "
-            variant={zone.open ? "default" : "destructive"}
+            variant={zone.open && zone.free > 0 ? "default" : "destructive"}
           >
-            {zone.open ? "Open" : "Closed"}
+            {zone.open && zone.free > 0 ? "Open" : "Closed"}
           </Badge>
           {/* Bonus: visually highlight special rate if server indicates it via WS (handled at parent) */}
         </div>

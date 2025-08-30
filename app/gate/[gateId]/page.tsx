@@ -56,10 +56,10 @@ export default function GatePage() {
   };
 
   return (
-    <main className="relative   !p-4  trucks-parking min-h-screen overflow-y-scroll  flex items-center justify-center">
+    <main className="relative   !p-4  trucks-parking min-h-screen   flex items-center justify-center">
       <div className="absolute top-0 left-0 w-full !h-full bg-gradient-to-b from-custom-orange/30 to-custom-deep-blue"></div>
 
-      <div className="z-10 bg-white/40 rounded-3xl !p-6 relative top-10 !mb-10 !h-full max-w-6xl">
+      <div className="z-10 bg-white/50 rounded-3xl !p-6 relative top-10 !mb-10 !h-full max-w-6xl">
         <GateHeader gateName={gate?.name || String(gateId)} />
         <Tabs value={gateTab} onValueChange={(v) => setGateTab(v as any)}>
           <div className="flex items-center justify-between  gap-2 ">
@@ -72,13 +72,14 @@ export default function GatePage() {
               </TabsTrigger>
             </TabsList>
           </div>
-          <div className="grid md:grid-cols-3 gap-3 !my-3">
+          <div className="grid md:grid-cols-3  gap-3 !my-3">
             {zones?.map((z) => (
               <ZoneCard
                 key={z.id}
                 zone={z}
                 disabled={!canSelect(z)}
                 onSelect={setSelectedZone}
+                selectedZone={selectedZone}
               />
             ))}
           </div>
@@ -100,7 +101,9 @@ export default function GatePage() {
             Go
           </Button>
           {error && (
-            <span className="text-red-600  text-sm">{String(error)}</span>
+            <span className="text-red-600 font-bold  text-sm">
+              {String(error)}
+            </span>
           )}
         </div>
       </div>

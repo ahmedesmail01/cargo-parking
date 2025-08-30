@@ -13,12 +13,12 @@ export function TicketModal() {
   const close = useUiStore((s) => s.closeTicket);
   return (
     <Dialog open={open} onOpenChange={(o) => !o && close()}>
-      <DialogContent className="print:w-[80mm]">
+      <DialogContent className="print:w-[80mm] !p-4">
         <DialogHeader>
           <DialogTitle>Ticket</DialogTitle>
         </DialogHeader>
         {ticket && (
-          <div className="space-y-1 text-sm">
+          <div className="space-y-1 text-sm ">
             <div>
               <b>ID:</b> {ticket.id}
             </div>
@@ -37,7 +37,10 @@ export function TicketModal() {
           </div>
         )}
         <div className="pt-3 print:hidden">
-          <button onClick={() => window.print()} className="btn">
+          <button
+            onClick={() => window.print()}
+            className="btn !w-full bg-custom-deep-blue text-white !py-2 rounded-lg cursor-pointer font-semibold"
+          >
             Print
           </button>
         </div>

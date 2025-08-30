@@ -3,6 +3,9 @@ import { useEffect, useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { useUiStore } from "@/store/ui.store";
 import { FaToriiGate } from "react-icons/fa6";
+import { PiPlugsConnectedFill } from "react-icons/pi";
+import { TbPlugConnected } from "react-icons/tb";
+import { MdAccessTime } from "react-icons/md";
 
 export function GateHeader({ gateName }: { gateName: string }) {
   const wsStatus = useUiStore((s) => s.wsStatus);
@@ -13,7 +16,7 @@ export function GateHeader({ gateName }: { gateName: string }) {
   }, []);
   return (
     <div className="flex items-center relative  justify-between !p-3">
-      <div className="text-3xl text-white bg-custom-orange rounded-3xl !px-4 !py-2 font-semibold flex items-center justify-center gap-4  !mb-4">
+      <div className="text-2xl text-white bg-custom-orange rounded-2xl !px-4 !py-2 font-semibold flex items-center justify-center gap-4  !mb-4">
         <FaToriiGate />
 
         <span>{gateName}</span>
@@ -31,9 +34,18 @@ export function GateHeader({ gateName }: { gateName: string }) {
               : "destructive"
           }
         >
+          {wsStatus === "connected" ? (
+            <PiPlugsConnectedFill />
+          ) : (
+            <TbPlugConnected />
+          )}
+
           {wsStatus}
         </Badge>
-        {/* <span className="tabular-nums text-muted-foreground">{now}</span> */}
+        <span className="tabular-nums flex items-center justify-center gap-2 text-custom-deep-blue">
+          <MdAccessTime />
+          {now}
+        </span>
       </div>
     </div>
   );

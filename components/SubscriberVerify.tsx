@@ -34,7 +34,9 @@ export function SubscriberVerify({
       {isFetching && (
         <div className="text-sm  text-muted-foreground">Checking…</div>
       )}
-      {error && <div className="text-sm text-red-600">{String(error)}</div>}
+      {error && (
+        <div className="text-sm font-bold text-red-600">{String(error)}</div>
+      )}
       {data && data.active ? (
         <div className="text-sm">
           <div>
@@ -50,7 +52,9 @@ export function SubscriberVerify({
           </div>
         </div>
       ) : data && !data.active ? (
-        <div className="text-sm text-red-600">Subscription inactive</div>
+        <div className="text-sm font-bold text-red-600">
+          Subscription inactive
+        </div>
       ) : null}
     </div>
   );
