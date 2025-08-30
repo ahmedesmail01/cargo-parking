@@ -1,9 +1,21 @@
+"use client";
 import Image from "next/image";
 import React from "react";
 import logo from "@/public/images/cargo-logo.png";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const Navbar = () => {
+  const path = usePathname();
+  const pathArr = path.split("/");
+
+  const checkActive = (path: string) => {
+    if (pathArr[1] === path) {
+      return "text-custom-orange";
+    }
+    return "text-white";
+  };
+
   return (
     <div className="w-full flex items-center justify-center bg-white/30  m-auto fixed top-0   left-0 z-[999]   ">
       <div className="flex items-center justify-between w-full max-w-6xl !px-4  m-auto">
@@ -17,13 +29,16 @@ const Navbar = () => {
         </Link>
         <div className="flex items-center gap-4">
           <Link
-            className="text-lg text-white hover:text-custom-orange transition-all duration-150"
+            className={`text-lg ${checkActive("")}
+            hover:text-custom-orange transition-all duration-150`}
             href="/"
           >
             Home
           </Link>
           <Link
-            className="text-lg text-white hover:text-custom-orange transition-all duration-150"
+            className={`text-lg ${checkActive(
+              "checkpoint"
+            )}   hover:text-custom-orange transition-all duration-150`}
             href="/checkpoint"
           >
             Checkpoint

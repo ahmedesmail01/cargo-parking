@@ -131,8 +131,8 @@
 
 html {
   scroll-behavior: smooth;
-  -webkit-user-select: none;
-  user-select: none;
+  /* -webkit-user-select: none;
+  user-select: none; */
 }
 
 .trucks-parking {
