@@ -18,6 +18,12 @@ const Navbar = () => {
         <div className="flex items-center gap-4">
           <Link
             className="text-lg text-white hover:text-custom-orange transition-all duration-150"
+            href="/"
+          >
+            Home
+          </Link>
+          <Link
+            className="text-lg text-white hover:text-custom-orange transition-all duration-150"
             href="/checkpoint"
           >
             Checkpoint
