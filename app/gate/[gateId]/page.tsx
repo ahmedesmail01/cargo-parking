@@ -56,17 +56,23 @@ export default function GatePage() {
   };
 
   return (
-    <main className="relative p-4 space-y-4 trucks-parking h-screen  overflow-auto flex items-center justify-center">
-      <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-custom-orange/30 to-custom-deep-blue"></div>
+    <main className="relative   !p-4  trucks-parking min-h-screen overflow-y-scroll  flex items-center justify-center">
+      <div className="absolute top-0 left-0 w-full !h-full bg-gradient-to-b from-custom-orange/30 to-custom-deep-blue"></div>
 
-      <div className="z-10 max-w-6xl">
+      <div className="z-10 bg-white/20 rounded-3xl !p-6 relative top-10 !mb-10 !h-full max-w-6xl">
         <GateHeader gateName={gate?.name || String(gateId)} />
         <Tabs value={gateTab} onValueChange={(v) => setGateTab(v as any)}>
-          <TabsList>
-            <TabsTrigger value="visitor">Visitor</TabsTrigger>
-            <TabsTrigger value="subscriber">Subscriber</TabsTrigger>
-          </TabsList>
-          <div className="grid md:grid-cols-3 gap-3 mt-3">
+          <div className="flex items-center justify-between  gap-2 ">
+            <TabsList>
+              <TabsTrigger className="!px-4 !py-2" value="visitor">
+                Visitor
+              </TabsTrigger>
+              <TabsTrigger className="!px-4 !py-2" value="subscriber">
+                Subscriber
+              </TabsTrigger>
+            </TabsList>
+          </div>
+          <div className="grid md:grid-cols-3 gap-3 !my-3">
             {zones?.map((z) => (
               <ZoneCard
                 key={z.id}
@@ -76,26 +82,27 @@ export default function GatePage() {
               />
             ))}
           </div>
-          <div className="flex items-center gap-3 pt-3">
-            {gateTab === "subscriber" && (
-              <SubscriberVerify onVerified={(id) => setSubscriptionId(id)} />
-            )}
-            <Button
-              disabled={
-                !selectedZone ||
-                isPending ||
-                (gateTab === "subscriber" && !subscriptionId)
-              }
-              onClick={onGo}
-            >
-              Go
-            </Button>
-            {error && (
-              <span className="text-red-600 text-sm">{String(error)}</span>
-            )}
-          </div>
         </Tabs>
         <TicketModal />
+        <div className="flex items-start gap-3 pt-3">
+          {gateTab === "subscriber" && (
+            <SubscriberVerify onVerified={(id) => setSubscriptionId(id)} />
+          )}
+          <Button
+            className="!px-6 !py-2 bg-custom-deep-blue text-white cursor-pointer hover:bg-custom-orange"
+            disabled={
+              !selectedZone ||
+              isPending ||
+              (gateTab === "subscriber" && !subscriptionId)
+            }
+            onClick={onGo}
+          >
+            Go
+          </Button>
+          {error && (
+            <span className="text-red-600  text-sm">{String(error)}</span>
+          )}
+        </div>
       </div>
     </main>
   );

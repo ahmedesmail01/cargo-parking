@@ -17,7 +17,7 @@ export function ZoneCard({
       role="button"
       aria-disabled={disabled}
       onClick={() => !disabled && onSelect?.(zone)}
-      className={`p-4 space-y-2 ${
+      className={`!p-4 !space-y-2 ${
         disabled
           ? "opacity-50 pointer-events-none"
           : "cursor-pointer hover:shadow"
@@ -26,7 +26,10 @@ export function ZoneCard({
       <div className="flex items-center justify-between">
         <div className="font-medium">{zone.name}</div>
         <div className="flex gap-2">
-          <Badge variant={zone.open ? "default" : "destructive"}>
+          <Badge
+            className="!px-2 !py-1 "
+            variant={zone.open ? "default" : "destructive"}
+          >
             {zone.open ? "Open" : "Closed"}
           </Badge>
           {/* Bonus: visually highlight special rate if server indicates it via WS (handled at parent) */}

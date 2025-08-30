@@ -15,19 +15,24 @@ export function SubscriberVerify({
   );
 
   return (
-    <div className="space-y-2">
+    <div className="!space-y-2  ">
       <div className="flex gap-2">
         <Input
           placeholder="Subscription ID"
           value={subId}
           onChange={(e) => setSubId(e.target.value)}
+          className="!px-4 bg-white border-0"
         />
-        <Button disabled={!subId} onClick={() => refetch()}>
+        <Button
+          className="!px-4 !py-2"
+          disabled={!subId}
+          onClick={() => refetch()}
+        >
           Verify
         </Button>
       </div>
       {isFetching && (
-        <div className="text-sm text-muted-foreground">Checking…</div>
+        <div className="text-sm  text-muted-foreground">Checking…</div>
       )}
       {error && <div className="text-sm text-red-600">{String(error)}</div>}
       {data && data.active ? (
@@ -38,8 +43,8 @@ export function SubscriberVerify({
           <div>
             <b>Category:</b> {data.category}
           </div>
-          <div className="mt-2">
-            <Button onClick={() => onVerified(data.id)}>
+          <div className="!mt-2">
+            <Button className="!px-4 !py-2" onClick={() => onVerified(data.id)}>
               Use this subscription
             </Button>
           </div>
