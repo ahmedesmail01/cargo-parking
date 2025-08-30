@@ -19,11 +19,9 @@ export function CheckoutPanel() {
           placeholder="Paste/scan ticket id"
           value={ticketId}
           onChange={(e) => setTicketId(e.target.value)}
+          className="!p-4 bg-white"
         />
-        <Button onClick={onCheckout} disabled={!ticketId || isPending}>
-          Checkout
-        </Button>
-        <label className="flex items-center gap-1 text-sm">
+        <label className="flex items-center text-nowrap text-white font-semibold gap-1 text-sm">
           <input
             type="checkbox"
             checked={force}
@@ -32,6 +30,15 @@ export function CheckoutPanel() {
           Force convert to visitor
         </label>
         <Button
+          className="!p-4"
+          onClick={onCheckout}
+          disabled={!ticketId || isPending}
+        >
+          Checkout
+        </Button>
+
+        <Button
+          className="!p-4"
           variant="secondary"
           onClick={() => {
             setTicketId("");

@@ -140,3 +140,9 @@ html {
   background-repeat: no-repeat;
   background-size: cover;
 }
+
+.trucks-checkout {
+  background-image: url("/images/trucks-checkout.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+}

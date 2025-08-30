@@ -15,8 +15,8 @@ export function GateHeader({ gateName }: { gateName: string }) {
     return () => clearInterval(i);
   }, []);
   return (
-    <div className="flex items-center relative  justify-between !p-3">
-      <div className="text-2xl text-white bg-custom-orange rounded-2xl !px-4 !py-2 font-semibold flex items-center justify-center gap-4  !mb-4">
+    <div className="flex items-center relative  justify-between !py-3">
+      <div className="text-sm lg:text-2xl text-white bg-custom-orange rounded-2xl !px-4 !py-2 font-semibold flex items-center justify-center gap-4  ">
         <FaToriiGate />
 
         <span>{gateName}</span>

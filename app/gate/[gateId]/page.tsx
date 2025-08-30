@@ -59,7 +59,7 @@ export default function GatePage() {
     <main className="relative   !p-4  trucks-parking min-h-screen   flex items-center justify-center">
       <div className="absolute top-0 left-0 w-full !h-full bg-gradient-to-b from-custom-orange/30 to-custom-deep-blue"></div>
 
-      <div className="z-10 bg-white/50 rounded-3xl !p-6 relative top-10 !mb-10 !h-full max-w-6xl">
+      <div className="z-10 bg-white/50 rounded-3xl !p-6 relative top-14 !mb-10 !h-full max-w-6xl">
         <GateHeader gateName={gate?.name || String(gateId)} />
         <Tabs value={gateTab} onValueChange={(v) => setGateTab(v as any)}>
           <div className="flex items-center justify-between  gap-2 ">
