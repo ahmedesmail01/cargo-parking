@@ -11,19 +11,22 @@ export function GateHeader({ gateName }: { gateName: string }) {
     return () => clearInterval(i);
   }, []);
   return (
-    <div className="flex items-center justify-between p-3">
-      <div className="text-xl font-semibold">{gateName}</div>
+    <div className="flex items-center justify-between !p-3">
+      <div className="text-3xl text-white font-semibold">{gateName}</div>
       <div className="flex items-center gap-3">
         <Badge
+          className={`!px-2 !py-1 animate-pulse rounded-xl
+            ${wsStatus === "connected" ? "bg-green-600 text-white" : ""}
+            `}
           variant={
             wsStatus === "connected"
-              ? "default"
+              ? "secondary"
               : wsStatus === "connecting"
               ? "secondary"
               : "destructive"
           }
         >
-          WS: {wsStatus}
+          {wsStatus}
         </Badge>
         {/* <span className="tabular-nums text-muted-foreground">{now}</span> */}
       </div>

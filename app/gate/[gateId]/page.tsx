@@ -56,43 +56,47 @@ export default function GatePage() {
   };
 
   return (
-    <main className="p-4 space-y-4">
-      <GateHeader gateName={gate?.name || String(gateId)} />
-      <Tabs value={gateTab} onValueChange={(v) => setGateTab(v as any)}>
-        <TabsList>
-          <TabsTrigger value="visitor">Visitor</TabsTrigger>
-          <TabsTrigger value="subscriber">Subscriber</TabsTrigger>
-        </TabsList>
-        <div className="grid md:grid-cols-3 gap-3 mt-3">
-          {zones?.map((z) => (
-            <ZoneCard
-              key={z.id}
-              zone={z}
-              disabled={!canSelect(z)}
-              onSelect={setSelectedZone}
-            />
-          ))}
-        </div>
-        <div className="flex items-center gap-3 pt-3">
-          {gateTab === "subscriber" && (
-            <SubscriberVerify onVerified={(id) => setSubscriptionId(id)} />
-          )}
-          <Button
-            disabled={
-              !selectedZone ||
-              isPending ||
-              (gateTab === "subscriber" && !subscriptionId)
-            }
-            onClick={onGo}
-          >
-            Go
-          </Button>
-          {error && (
-            <span className="text-red-600 text-sm">{String(error)}</span>
-          )}
-        </div>
-      </Tabs>
-      <TicketModal />
+    <main className="relative p-4 space-y-4 trucks-parking h-screen  overflow-auto flex items-center justify-center">
+      <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-custom-orange/30 to-custom-deep-blue"></div>
+
+      <div className="z-10 max-w-6xl">
+        <GateHeader gateName={gate?.name || String(gateId)} />
+        <Tabs value={gateTab} onValueChange={(v) => setGateTab(v as any)}>
+          <TabsList>
+            <TabsTrigger value="visitor">Visitor</TabsTrigger>
+            <TabsTrigger value="subscriber">Subscriber</TabsTrigger>
+          </TabsList>
+          <div className="grid md:grid-cols-3 gap-3 mt-3">
+            {zones?.map((z) => (
+              <ZoneCard
+                key={z.id}
+                zone={z}
+                disabled={!canSelect(z)}
+                onSelect={setSelectedZone}
+              />
+            ))}
+          </div>
+          <div className="flex items-center gap-3 pt-3">
+            {gateTab === "subscriber" && (
+              <SubscriberVerify onVerified={(id) => setSubscriptionId(id)} />
+            )}
+            <Button
+              disabled={
+                !selectedZone ||
+                isPending ||
+                (gateTab === "subscriber" && !subscriptionId)
+              }
+              onClick={onGo}
+            >
+              Go
+            </Button>
+            {error && (
+              <span className="text-red-600 text-sm">{String(error)}</span>
+            )}
+          </div>
+        </Tabs>
+        <TicketModal />
+      </div>
     </main>
   );
 }
