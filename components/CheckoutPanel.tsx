@@ -14,21 +14,24 @@ export function CheckoutPanel() {
 
   return (
     <div className="space-y-4">
-      <div className="flex gap-2 items-center">
-        <Input
-          placeholder="Paste/scan ticket id"
-          value={ticketId}
-          onChange={(e) => setTicketId(e.target.value)}
-          className="!p-4 bg-white"
-        />
-        <label className="flex items-center text-nowrap text-white font-semibold gap-1 text-sm">
-          <input
-            type="checkbox"
-            checked={force}
-            onChange={(e) => setForce(e.target.checked)}
-          />{" "}
-          Force convert to visitor
-        </label>
+      <div className="flex gap-2 items-start">
+        <div className="flex items-start justify-start flex-col gap-2">
+          <Input
+            placeholder="Paste/scan ticket id"
+            value={ticketId}
+            onChange={(e) => setTicketId(e.target.value)}
+            className="!p-4 bg-white"
+          />
+          <label className="flex  items-center text-nowrap text-white font-semibold gap-1 text-sm">
+            <input
+              type="checkbox"
+              checked={force}
+              onChange={(e) => setForce(e.target.checked)}
+            />{" "}
+            Force convert to visitor
+          </label>
+        </div>
+
         <Button
           className="!p-4"
           onClick={onCheckout}
@@ -73,7 +76,7 @@ export function CheckoutPanel() {
               </thead>
               <tbody>
                 {data.breakdown.map((b, i) => (
-                  <tr key={i} className="odd:bg-muted/30">
+                  <tr key={i} className="odd:bg-muted/30 font-semibold">
                     <td className="!p-2">{fmtTime(b.from)}</td>
                     <td className="!p-2">{fmtTime(b.to)}</td>
                     <td className="!p-2">{b.hours}</td>
