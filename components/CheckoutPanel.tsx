@@ -51,35 +51,35 @@ export function CheckoutPanel() {
       </div>
       {error && <div className="text-red-600 text-sm">{String(error)}</div>}
       {data && (
-        <div className="space-y-2">
-          <div className="text-sm">
+        <div className="space-y-2 bg-white/50 !my-6 !py-6 !pb-10 !px-6 rounded-3xl">
+          <div className="text-base text-white !mb-4">
             Check-in: {fmtTime(data.checkinAt)} → Checkout:{" "}
             {fmtTime(data.checkoutAt)} (hrs: {data.durationHours})
           </div>
-          <div className="text-sm font-medium">
+          <div className="text-xl font-medium !mb-4 bg-custom-orange text-white w-fit !px-4 !py-2 rounded-2xl">
             Amount: {fmtCurrency(data.amount)}
           </div>
           <div className="border rounded">
-            <table className="w-full text-sm">
+            <table className="w-full text-base ">
               <thead>
                 <tr className="bg-muted text-left">
-                  <th className="p-2">From</th>
-                  <th className="p-2">To</th>
-                  <th className="p-2">Hours</th>
-                  <th className="p-2">Rate Mode</th>
-                  <th className="p-2">Rate</th>
-                  <th className="p-2">Amount</th>
+                  <th className="!p-2">From</th>
+                  <th className="!p-2">To</th>
+                  <th className="!p-2">Hours</th>
+                  <th className="!p-2">Rate Mode</th>
+                  <th className="!p-2">Rate</th>
+                  <th className="!p-2">Amount</th>
                 </tr>
               </thead>
               <tbody>
                 {data.breakdown.map((b, i) => (
                   <tr key={i} className="odd:bg-muted/30">
-                    <td className="p-2">{fmtTime(b.from)}</td>
-                    <td className="p-2">{fmtTime(b.to)}</td>
-                    <td className="p-2">{b.hours}</td>
-                    <td className="p-2">{b.rateMode}</td>
-                    <td className="p-2">{b.rate}</td>
-                    <td className="p-2">{fmtCurrency(b.amount)}</td>
+                    <td className="!p-2">{fmtTime(b.from)}</td>
+                    <td className="!p-2">{fmtTime(b.to)}</td>
+                    <td className="!p-2">{b.hours}</td>
+                    <td className="!p-2">{b.rateMode}</td>
+                    <td className="!p-2">{b.rate}</td>
+                    <td className="!p-2">{fmtCurrency(b.amount)}</td>
                   </tr>
                 ))}
               </tbody>
