@@ -4,13 +4,19 @@ import { Input } from "@/components/ui/input";
 import { useCheckout } from "@/services/hooks";
 import { fmtCurrency, fmtTime } from "@/lib/format";
 import { useState } from "react";
+import CustomModal from "./CustomModal";
+import QrScanner from "./QrScanner";
 
 export function CheckoutPanel() {
   const [ticketId, setTicketId] = useState("");
   const [force, setForce] = useState(false);
   const { mutate, data, isPending, error, reset } = useCheckout();
+  const [isOpenScanQr, setOpenScanQr] = useState(false);
 
   const onCheckout = () => mutate({ ticketId, forceConvertToVisitor: force });
+  const handleOpenScanner = async () => {
+    setOpenScanQr(true);
+  };
 
   return (
     <div className="space-y-4">
@@ -39,6 +45,9 @@ export function CheckoutPanel() {
         >
           Checkout
         </Button>
+        <Button className="!p-4" onClick={handleOpenScanner}>
+          Scan Qr
+        </Button>
 
         <Button
           className="!p-4"
@@ -53,6 +62,18 @@ export function CheckoutPanel() {
         </Button>
       </div>
       {error && <div className="text-red-600 text-sm">{String(error)}</div>}
+
+      {/* qr code  */}
+      {isOpenScanQr && (
+        <CustomModal
+          open={isOpenScanQr}
+          handleCancel={() => setOpenScanQr(false)}
+          title="Scan QR To Mark Attendance "
+        >
+          <QrScanner />
+        </CustomModal>
+      )}
+
       {data && (
         <div className="space-y-2 bg-white/50 !my-6 !py-6 !pb-10 !px-6 rounded-3xl">
           <div className="text-base text-white !mb-4">
