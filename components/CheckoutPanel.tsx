@@ -23,12 +23,17 @@ export function CheckoutPanel() {
       {/* Controls */}
       <div className="flex flex-col gap-2 sm:flex-row sm:items-start">
         <div className="flex w-full sm:w-auto flex-col gap-2">
-          <Input
-            placeholder="Paste/scan ticket id"
-            value={ticketId}
-            onChange={(e) => setTicketId(e.target.value)}
-            className="w-full sm:w-[260px] !p-4 bg-white"
-          />
+          <div className="flex items-center gap-4">
+            <Input
+              placeholder="Paste/scan ticket id"
+              value={ticketId}
+              onChange={(e) => setTicketId(e.target.value)}
+              className="w-full flex-1 sm:w-[260px] !p-4 bg-white"
+            />
+            <Button className=" sm:w-auto !p-4" onClick={handleOpenScanner}>
+              Scan QR
+            </Button>
+          </div>
           <label className="flex items-center gap-2 text-xs sm:text-sm text-white sm:whitespace-nowrap">
             <input
               type="checkbox"
@@ -48,9 +53,7 @@ export function CheckoutPanel() {
           >
             Checkout
           </Button>
-          <Button className="w-full sm:w-auto !p-4" onClick={handleOpenScanner}>
-            Scan QR
-          </Button>
+
           <Button
             className="w-full sm:w-auto !p-4"
             variant="secondary"
