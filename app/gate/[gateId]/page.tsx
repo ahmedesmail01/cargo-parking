@@ -72,6 +72,27 @@ export default function GatePage() {
               </TabsTrigger>
             </TabsList>
           </div>
+          <div className="flex items-start gap-3 !pt-3">
+            {gateTab === "subscriber" && (
+              <SubscriberVerify onVerified={(id) => setSubscriptionId(id)} />
+            )}
+            <Button
+              className="!px-6 !py-2 bg-custom-deep-blue text-white cursor-pointer hover:bg-custom-orange"
+              disabled={
+                !selectedZone ||
+                isPending ||
+                (gateTab === "subscriber" && !subscriptionId)
+              }
+              onClick={onGo}
+            >
+              Go
+            </Button>
+            {error && (
+              <span className="text-red-600 font-bold  text-sm">
+                {String(error)}
+              </span>
+            )}
+          </div>
           <div className="grid md:grid-cols-3  gap-3 !my-3">
             {zones?.map((z) => (
               <ZoneCard
@@ -85,27 +106,6 @@ export default function GatePage() {
           </div>
         </Tabs>
         <TicketModal />
-        <div className="flex items-start gap-3 pt-3">
-          {gateTab === "subscriber" && (
-            <SubscriberVerify onVerified={(id) => setSubscriptionId(id)} />
-          )}
-          <Button
-            className="!px-6 !py-2 bg-custom-deep-blue text-white cursor-pointer hover:bg-custom-orange"
-            disabled={
-              !selectedZone ||
-              isPending ||
-              (gateTab === "subscriber" && !subscriptionId)
-            }
-            onClick={onGo}
-          >
-            Go
-          </Button>
-          {error && (
-            <span className="text-red-600 font-bold  text-sm">
-              {String(error)}
-            </span>
-          )}
-        </div>
       </div>
     </main>
   );
