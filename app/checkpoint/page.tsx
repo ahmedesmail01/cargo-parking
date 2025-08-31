@@ -18,7 +18,7 @@ export default function Checkpoint() {
       <div className="absolute top-0 left-0 w-full !h-full bg-gradient-to-b from-custom-deep-blue to-custom-orange/50"></div>
 
       <div className="relative top-18 max-w-6xl m-auto w-full">
-        <h1 className="text-3xl !mb-4 text-white font-semibold">
+        <h1 className="lg:text-3xl !mb-4 text-white font-semibold">
           Checkpoint — Checkout
         </h1>
         <CheckoutPanel />

@@ -14,84 +14,86 @@ export function CheckoutPanel() {
   const [isOpenScanQr, setOpenScanQr] = useState(false);
 
   const onCheckout = () => mutate({ ticketId, forceConvertToVisitor: force });
-  const handleOpenScanner = async () => {
-    setOpenScanQr(true);
-  };
-
-  const handleCancel = () => {
-    setOpenScanQr(false);
-  };
+  const handleOpenScanner = () => setOpenScanQr(true);
+  const handleCancel = () => setOpenScanQr(false);
 
   return (
-    <div className="space-y-4">
-      <div className="flex gap-2 items-start">
-        <div className="flex items-start justify-start flex-col gap-2">
+    // prevent any page-level horizontal scroll from this block
+    <div className="space-y-4 max-w-full overflow-x-hidden">
+      {/* Controls */}
+      <div className="flex flex-col gap-2 sm:flex-row sm:items-start">
+        <div className="flex w-full sm:w-auto flex-col gap-2">
           <Input
             placeholder="Paste/scan ticket id"
             value={ticketId}
             onChange={(e) => setTicketId(e.target.value)}
-            className="!p-4 bg-white"
+            className="w-full sm:w-[260px] !p-4 bg-white"
           />
-          <label className="flex  items-center text-nowrap text-white font-semibold gap-1 text-sm">
+          <label className="flex items-center gap-2 text-xs sm:text-sm text-white sm:whitespace-nowrap">
             <input
               type="checkbox"
               checked={force}
               onChange={(e) => setForce(e.target.checked)}
-            />{" "}
-            Force convert to visitor
+            />
+            <span>Force convert to visitor</span>
           </label>
         </div>
 
-        <Button
-          className="!p-4"
-          onClick={onCheckout}
-          disabled={!ticketId || isPending}
-        >
-          Checkout
-        </Button>
-        <Button className="!p-4" onClick={handleOpenScanner}>
-          Scan Qr
-        </Button>
-
-        <Button
-          className="!p-4"
-          variant="secondary"
-          onClick={() => {
-            setTicketId("");
-            setForce(false);
-            reset();
-          }}
-        >
-          Clear
-        </Button>
+        {/* Buttons wrap nicely; full width on mobile */}
+        <div className="flex w-full sm:w-auto gap-2 sm:ml-auto">
+          <Button
+            className="w-full sm:w-auto !p-4"
+            onClick={onCheckout}
+            disabled={!ticketId || isPending}
+          >
+            Checkout
+          </Button>
+          <Button className="w-full sm:w-auto !p-4" onClick={handleOpenScanner}>
+            Scan QR
+          </Button>
+          <Button
+            className="w-full sm:w-auto !p-4"
+            variant="secondary"
+            onClick={() => {
+              setTicketId("");
+              setForce(false);
+              reset();
+            }}
+          >
+            Clear
+          </Button>
+        </div>
       </div>
+
       {error && <div className="text-red-600 text-sm">{String(error)}</div>}
 
-      {/* qr code  */}
+      {/* QR modal */}
       {isOpenScanQr && (
         <CustomModal
           open={isOpenScanQr}
           handleCancel={handleCancel}
-          title="Scan QR To Mark Attendance "
+          title="Scan ticket QR"
         >
-          <QrScanner
-            setTicketId={setTicketId} // called when user closes (overlay click, ESC, etc.)
-            handleCancel={handleCancel}
-          />
+          <div className="max-h-[80dvh] overflow-auto">
+            <QrScanner setTicketId={setTicketId} handleCancel={handleCancel} />
+          </div>
         </CustomModal>
       )}
 
+      {/* Result */}
       {data && (
-        <div className="space-y-2 bg-white/50 !my-6 !py-6 !pb-10 !px-6 rounded-3xl">
-          <div className="text-base text-white !mb-4">
+        <div className="space-y-3 bg-white/50 my-6 py-6 pb-10 px-4 sm:px-6 rounded-3xl">
+          <div className="text-sm sm:text-base text-white">
             Check-in: {fmtTime(data.checkinAt)} → Checkout:{" "}
             {fmtTime(data.checkoutAt)} (hrs: {data.durationHours})
           </div>
-          <div className="text-xl font-medium !mb-4 bg-custom-orange text-white w-fit !px-4 !py-2 rounded-2xl">
+          <div className="inline-flex text-base sm:text-xl font-medium bg-custom-orange text-white px-4 py-2 rounded-2xl">
             Amount: {fmtCurrency(data.amount)}
           </div>
-          <div className="border rounded">
-            <table className="w-full text-base ">
+
+          {/* Table: horizontal scroll only inside this box on small screens */}
+          <div className="border rounded -mx-4 sm:mx-0 overflow-x-auto">
+            <table className="min-w-[640px] w-full text-sm sm:text-base">
               <thead>
                 <tr className="bg-muted text-left">
                   <th className="!p-2">From</th>
@@ -105,10 +107,12 @@ export function CheckoutPanel() {
               <tbody>
                 {data.breakdown.map((b, i) => (
                   <tr key={i} className="odd:bg-muted/30 font-semibold">
-                    <td className="!p-2">{fmtTime(b.from)}</td>
-                    <td className="!p-2">{fmtTime(b.to)}</td>
+                    <td className="!p-2 whitespace-nowrap">
+                      {fmtTime(b.from)}
+                    </td>
+                    <td className="!p-2 whitespace-nowrap">{fmtTime(b.to)}</td>
                     <td className="!p-2">{b.hours}</td>
-                    <td className="!p-2">{b.rateMode}</td>
+                    <td className="!p-2 capitalize">{b.rateMode}</td>
                     <td className="!p-2">{b.rate}</td>
                     <td className="!p-2">{fmtCurrency(b.amount)}</td>
                   </tr>
