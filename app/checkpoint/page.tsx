@@ -1,23 +1,18 @@
 "use client";
 import { useAuthStore } from "@/store/auth.store";
 import { CheckoutPanel } from "@/components/CheckoutPanel";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 export default function Checkpoint() {
   const token = useAuthStore((s) => s.token);
-  if (!token) {
-    return (
-      <main className="p-6">
-        <p>
-          Employee access only. Please{" "}
-          <Link className="underline" href="/login/employee">
-            login
-          </Link>
-          .
-        </p>
-      </main>
-    );
-  }
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!token) {
+      router.push("/login/employee");
+    }
+  }, [token, router]);
   return (
     <main className="!p-6 relative !space-y-4 trucks-checkout flex items-start justify-center min-h-screen">
       <div className="absolute top-0 left-0 w-full !h-full bg-gradient-to-b from-custom-deep-blue to-custom-orange/50"></div>

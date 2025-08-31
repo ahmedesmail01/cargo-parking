@@ -1,40 +1,49 @@
 "use client";
+
 import { useState } from "react";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 import { useAuthStore } from "@/store/auth.store";
 import { useRouter } from "next/navigation";
+import { LoginForm } from "@/components/login-form";
 
 export default function EmployeeLogin() {
   const login = useAuthStore((s) => s.login);
-  const [u, setU] = useState("");
-  const [p, setP] = useState("");
+  const [user, setUser] = useState("");
+  const [pass, setPass] = useState("");
   const [err, setErr] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
+
   const onSubmit = async () => {
+    setErr(null);
+    setLoading(true);
     try {
-      await login(u, p);
+      await login(user, pass); // calls /auth/login and stores token+user
       router.push("/checkpoint");
     } catch (e: any) {
-      setErr(e.message);
+      // surface server message if available
+      const msg =
+        e?.response?.data?.message ||
+        e?.message ||
+        "Login failed. Check your credentials and try again.";
+      setErr(msg);
+    } finally {
+      setLoading(false);
     }
   };
+
   return (
-    <main className="p-6 max-w-sm mx-auto space-y-3">
-      <h1 className="text-xl font-semibold">Employee Login</h1>
-      <Input
-        placeholder="Username"
-        value={u}
-        onChange={(e) => setU(e.target.value)}
-      />
-      <Input
-        type="password"
-        placeholder="Password"
-        value={p}
-        onChange={(e) => setP(e.target.value)}
-      />
-      <Button onClick={onSubmit}>Login</Button>
-      {err && <div className="text-red-600 text-sm">{err}</div>}
+    <main className="min-h-dvh flex items-center justify-center bg-custom-deep-blue px-4">
+      <div className="relative top-10 w-full max-w-[890px]">
+        <LoginForm
+          user={user}
+          pass={pass}
+          setUser={setUser}
+          setPass={setPass}
+          onSubmit={onSubmit}
+          error={err}
+          loading={loading}
+        />
+      </div>
     </main>
   );
 }
