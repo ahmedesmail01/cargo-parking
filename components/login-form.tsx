@@ -47,12 +47,6 @@ export function LoginForm({
               </p>
             </div>
 
-            {error ? (
-              <div className="text-sm rounded-md bg-red-500/10 text-red-600 border border-red-200 px-3 py-2">
-                {error}
-              </div>
-            ) : null}
-
             <div className="grid gap-3 !mb-4">
               <Label htmlFor="username">Username</Label>
               <Input
