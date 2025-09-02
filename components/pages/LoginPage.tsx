@@ -7,11 +7,11 @@ import { LoginForm } from "@/components/login-form";
 import { toast } from "sonner";
 
 interface LoginPageProps {
-  routingPage: string;
+  role: "admin" | "employee";
 }
 
-const LoginPage = ({ routingPage }: LoginPageProps) => {
-  const login = useAuthStore((s) => s.login);
+const LoginPage = ({ role }: LoginPageProps) => {
+  const { user: userStorage, login } = useAuthStore();
   const [user, setUser] = useState("");
   const [pass, setPass] = useState("");
   const [err, setErr] = useState<string | null>(null);
@@ -23,8 +23,16 @@ const LoginPage = ({ routingPage }: LoginPageProps) => {
     setLoading(true);
     try {
       await login(user, pass); // calls /auth/login and stores token+user
-      toast.success("Login success");
-      router.push(routingPage);
+      if (role === "admin") {
+        router.push("/admin");
+      } else {
+        router.push("/checkpoint");
+      }
+      if (userStorage?.role === role) {
+        toast.success("Login success");
+      } else {
+        toast.error("Login failed. Check your credentials and try again.");
+      }
     } catch (e: any) {
       // surface server message if available
       const msg =
