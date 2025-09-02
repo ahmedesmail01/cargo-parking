@@ -65,3 +65,10 @@ export type CheckoutResult = {
   amount: number;
   zoneState: Zone;
 };
+
+export type RushHour = {
+  id: string;
+  weekDay: number; // ISO: 1=Mon ... 7=Sun  (adjust if your backend is 0-based)
+  from: string; // "HH:mm"
+  to: string; // "HH:mm"
+};

@@ -7,7 +7,11 @@ import type {
   CheckoutResult,
   Subscription,
   Category,
+  RushHour,
 } from "./types";
+
+const RUSH_QK = ["admin", "rush-hours"];
+
 export const useGates = () =>
   useQuery({
     queryKey: ["gates"],
@@ -105,3 +109,44 @@ export const useAdminCreateVacation = () =>
     mutationFn: async (body: { name: string; from: string; to: string }) =>
       (await api.post(`/admin/vacations`, body)).data,
   });
+
+export function useAdminRushHours() {
+  return useQuery({
+    queryKey: RUSH_QK,
+    queryFn: async () => {
+      const { data } = await api.get<RushHour[]>("/admin/rush-hours");
+      return data;
+    },
+    staleTime: 15_000,
+  });
+}
+
+export function useAdminUpdateRush() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (p: {
+      id: string;
+      weekDay: number;
+      from: string;
+      to: string;
+    }) => api.put(`/admin/rush-hours/${p.id}`, p).then((r) => r.data),
+    onSuccess: () => qc.invalidateQueries({ queryKey: RUSH_QK }),
+    meta: {
+      successMessage: "Rush window updated",
+      errorMessage: "Failed to update rush window",
+    },
+  });
+}
+
+export function useAdminDeleteRush() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (p: { id: string }) =>
+      api.delete(`/admin/rush-hours/${p.id}`).then((r) => r.data),
+    onSuccess: () => qc.invalidateQueries({ queryKey: RUSH_QK }),
+    meta: {
+      successMessage: "Rush window deleted",
+      errorMessage: "Failed to delete rush window",
+    },
+  });
+}

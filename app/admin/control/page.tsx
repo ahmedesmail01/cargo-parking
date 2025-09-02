@@ -8,6 +8,7 @@ import {
   useAdminCreateRush,
   useAdminCreateVacation,
 } from "@/services/hooks";
+import RushHoursPanel from "@/components/admin/RushHoursPanel";
 
 export default function ControlPage() {
   const [zoneId, setZoneId] = useState("");
@@ -25,6 +26,9 @@ export default function ControlPage() {
 
   return (
     <main className=" !space-y-6">
+      {/* Rush Hours */}
+      <RushHoursPanel />
+
       <section className="!space-y-2">
         <h2 className="font-medium">Open/Close Zone</h2>
         <div className="flex gap-2">

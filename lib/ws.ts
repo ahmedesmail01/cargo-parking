@@ -18,25 +18,23 @@ interface WsState {
   status: "disconnected" | "connecting" | "connected";
   socket?: WebSocket;
 
-  // queue to handle StrictMode double effects / CONNECTING state
+  // de-duped, flushed on open
   pendingSubs: Set<string>;
   pendingUnsubs: Set<string>;
 
+  // subscribe/unsubscribe
   subscribeGate: (gateId: string) => void;
+  subscribeMany: (gateIds: string[]) => void;
   unsubscribeGate: (gateId: string) => void;
 
-  onZoneUpdate?: (zone: any) => void;
-  onAdminUpdate?: (evt: AdminUpdate["payload"]) => void;
-  setHandlers: (h: {
-    onZoneUpdate?: (z: any) => void;
-    onAdminUpdate?: (a: AdminUpdate["payload"]) => void;
-  }) => void;
+  // listeners (multiple allowed)
+  addZoneListener: (fn: (zone: any) => void) => () => void;
+  addAdminListener: (fn: (evt: AdminUpdate["payload"]) => void) => () => void;
 }
 
 function openSocket(set: any, get: any) {
   const url = String(process.env.NEXT_PUBLIC_WS_URL);
   const ws = new WebSocket(url);
-
   set({ status: "connecting", socket: ws });
 
   ws.onopen = () => {
@@ -57,11 +55,19 @@ function openSocket(set: any, get: any) {
   ws.onmessage = (ev) => {
     try {
       const msg: Message = JSON.parse(ev.data);
-      if (msg.type === "zone-update" && get().onZoneUpdate)
-        get().onZoneUpdate!(msg.payload);
-      if (msg.type === "admin-update" && get().onAdminUpdate)
-        get().onAdminUpdate!(msg.payload);
-    } catch {}
+      if (msg.type === "zone-update") {
+        (get()._zoneListeners as Set<(z: any) => void>).forEach((fn) =>
+          fn(msg.payload)
+        );
+      }
+      if (msg.type === "admin-update") {
+        (
+          get()._adminListeners as Set<(p: AdminUpdate["payload"]) => void>
+        ).forEach((fn) => fn(msg.payload));
+      }
+    } catch {
+      // ignore bad frames
+    }
   };
 
   ws.onclose = () => set({ status: "disconnected", socket: undefined });
@@ -70,11 +76,20 @@ function openSocket(set: any, get: any) {
   return ws;
 }
 
-export const useWs = create<WsState>((set, get) => ({
+export const useWs = create<
+  WsState & {
+    _zoneListeners: Set<(z: any) => void>;
+    _adminListeners: Set<(p: AdminUpdate["payload"]) => void>;
+  }
+>((set, get) => ({
   status: "disconnected",
   socket: undefined,
   pendingSubs: new Set<string>(),
   pendingUnsubs: new Set<string>(),
+
+  // internal listener registries
+  _zoneListeners: new Set(),
+  _adminListeners: new Set(),
 
   subscribeGate: (gateId: string) => {
     let ws = get().socket;
@@ -84,19 +99,21 @@ export const useWs = create<WsState>((set, get) => ({
     get().pendingUnsubs.delete(gateId);
 
     if (!ws || ws.readyState === WebSocket.CLOSED) {
-      ws = openSocket(set, get);
-      return; // will flush on open
-    }
-
-    if (ws.readyState === WebSocket.CONNECTING) {
-      // do nothing: will flush on open
+      openSocket(set, get); // will flush on open
       return;
     }
-
+    if (ws.readyState === WebSocket.CONNECTING) {
+      // will flush on open
+      return;
+    }
     if (ws.readyState === WebSocket.OPEN) {
       ws.send(JSON.stringify({ type: "subscribe", payload: { gateId } }));
       get().pendingSubs.delete(gateId);
     }
+  },
+
+  subscribeMany: (gateIds: string[]) => {
+    gateIds.forEach((id) => get().subscribeGate(id));
   },
 
   unsubscribeGate: (gateId: string) => {
@@ -109,8 +126,16 @@ export const useWs = create<WsState>((set, get) => ({
       ws.send(JSON.stringify({ type: "unsubscribe", payload: { gateId } }));
       get().pendingUnsubs.delete(gateId);
     }
-    // if CONNECTING/CLOSED: will flush when (re)opened
+    // if CONNECTING/CLOSED: will flush on open
   },
 
-  setHandlers: (h) => set(h),
+  // pub/sub API (multiple listeners, safe in StrictMode)
+  addZoneListener: (fn) => {
+    get()._zoneListeners.add(fn);
+    return () => get()._zoneListeners.delete(fn);
+  },
+  addAdminListener: (fn) => {
+    get()._adminListeners.add(fn);
+    return () => get()._adminListeners.delete(fn);
+  },
 }));
