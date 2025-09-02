@@ -24,14 +24,15 @@ export default function ControlPage() {
   const addVac = useAdminCreateVacation();
 
   return (
-    <main className="p-6 space-y-6">
-      <section className="space-y-2">
+    <main className=" !space-y-6">
+      <section className="!space-y-2">
         <h2 className="font-medium">Open/Close Zone</h2>
         <div className="flex gap-2">
           <Input
             placeholder="zone id"
             value={zoneId}
             onChange={(e) => setZoneId(e.target.value)}
+            className="!p-4"
           />
           <select
             title="Zone Status"
@@ -42,29 +43,35 @@ export default function ControlPage() {
             <option value="1">Open</option>
             <option value="0">Close</option>
           </select>
-          <Button onClick={() => openZone.mutate({ id: zoneId, open })}>
+          <Button
+            onClick={() => openZone.mutate({ id: zoneId, open })}
+            className="!p-4"
+          >
             Apply
           </Button>
         </div>
       </section>
 
-      <section className="space-y-2">
+      <section className="!space-y-2">
         <h2 className="font-medium">Update Category Rates</h2>
-        <div className="flex gap-2">
+        <div className="flex !gap-2">
           <Input
             placeholder="category id"
             value={categoryId}
             onChange={(e) => setCategoryId(e.target.value)}
+            className="!p-4"
           />
           <Input
             placeholder="rateNormal"
             value={rateNormal}
             onChange={(e) => setRateNormal(e.target.value)}
+            className="!p-4"
           />
           <Input
             placeholder="rateSpecial"
             value={rateSpecial}
             onChange={(e) => setRateSpecial(e.target.value)}
+            className="!p-4"
           />
           <Button
             onClick={() =>
@@ -74,6 +81,7 @@ export default function ControlPage() {
                 rateSpecial: Number(rateSpecial),
               })
             }
+            className="!p-4"
           >
             Save
           </Button>
@@ -87,21 +95,25 @@ export default function ControlPage() {
             placeholder="name"
             value={vacName}
             onChange={(e) => setVacName(e.target.value)}
+            className="!p-4"
           />
           <Input
             type="date"
             value={vacFrom}
             onChange={(e) => setVacFrom(e.target.value)}
+            className="!p-4"
           />
           <Input
             type="date"
             value={vacTo}
             onChange={(e) => setVacTo(e.target.value)}
+            className="!p-4"
           />
           <Button
             onClick={() =>
               addVac.mutate({ name: vacName, from: vacFrom, to: vacTo })
             }
+            className="!p-4"
           >
             Add
           </Button>
