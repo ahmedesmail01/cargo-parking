@@ -33,6 +33,10 @@ const Navbar = () => {
   const checkActive = (p: string) =>
     pathArr[1] === p ? "text-custom-orange" : "text-white";
 
+  if (pathArr[1] === "admin") {
+    return null;
+  }
+
   return (
     <div className="fixed top-0 left-0 z-30 w-full bg-white/30 backdrop-blur-md border-b border-white/20">
       <div className="mx-auto flex w-full max-w-6xl items-center justify-between !px-4 !py-2">
