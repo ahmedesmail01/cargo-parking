@@ -22,16 +22,18 @@ const LoginPage = ({ role }: LoginPageProps) => {
     setErr(null);
     setLoading(true);
     try {
-      await login(user, pass); // calls /auth/login and stores token+user
+      const res = await login(user, pass); // calls /auth/login and stores token+user
+
+      if (res.user.role === role) {
+        toast.success("Login success");
+      } else {
+        toast.error("Login failed. Check your credentials and try again.");
+      }
+
       if (role === "admin") {
         router.push("/admin");
       } else {
         router.push("/checkpoint");
-      }
-      if (userStorage?.role === role) {
-        toast.success("Login success");
-      } else {
-        toast.error("Login failed. Check your credentials and try again.");
       }
     } catch (e: any) {
       // surface server message if available
