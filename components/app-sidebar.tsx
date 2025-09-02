@@ -2,21 +2,11 @@
 
 import * as React from "react";
 import {
-  IconCamera,
   IconChartBar,
   IconDashboard,
-  IconDatabase,
-  IconFileAi,
-  IconFileDescription,
-  IconFileWord,
   IconFolder,
-  IconHelp,
   IconInnerShadowTop,
   IconListDetails,
-  IconReport,
-  IconSearch,
-  IconSettings,
-  IconUsers,
 } from "@tabler/icons-react";
 
 import { NavMain } from "@/components/nav-main";
@@ -30,8 +20,6 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { useAuthStore } from "@/store/auth.store";
-import { useRouter } from "next/navigation";
 
 const data = {
   navMain: [
@@ -59,13 +47,6 @@ const data = {
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  const { user, token } = useAuthStore();
-  const router = useRouter();
-  React.useEffect(() => {
-    if (!token || user?.role !== "admin") {
-      router.push("/login/admin");
-    }
-  }, [user, token, router]);
   return (
     <Sidebar collapsible="offcanvas" {...props} className="!p-4">
       <SidebarHeader>

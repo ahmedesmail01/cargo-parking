@@ -1,36 +1,26 @@
-// import Link from "next/link";
-
-// export default function AdminLayout({
-//   children,
-// }: {
-//   children: React.ReactNode;
-// }) {
-//   return (
-//     <div className="p-6 space-y-4">
-//       <nav className="space-x-3">
-//         <Link className="underline" href="/admin">
-//           Home
-//         </Link>
-//         <Link className="underline" href="/admin/employees">
-//           Employees
-//         </Link>
-//         <Link className="underline" href="/admin/reports">
-//           Parking State
-//         </Link>
-//         <Link className="underline" href="/admin/control">
-//           Control Panel
-//         </Link>
-//       </nav>
-//       {children}
-//     </div>
-//   );
-// }
+"use client";
 
 import { AppSidebar } from "@/components/app-sidebar";
 import { SiteHeader } from "@/components/site-header";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
+import { useAuthStore } from "@/store/auth.store";
+import { useRouter } from "next/navigation";
+import React from "react";
 
-export default function Page({ children }: { children: React.ReactNode }) {
+export default function AdminLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  const { user, token } = useAuthStore();
+  const router = useRouter();
+
+  React.useEffect(() => {
+    if (!token || user?.role !== "admin") {
+      router.replace("/login/admin");
+    }
+  }, [token, user, router]);
+
   return (
     <SidebarProvider
       style={

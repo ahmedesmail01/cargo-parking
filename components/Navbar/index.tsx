@@ -23,6 +23,8 @@ const Navbar = () => {
   const router = useRouter();
   const qc = useQueryClient();
 
+  // console.log("user is ", user);
+
   const handleLogout = () => {
     logout();
     toast.success("Logout success");
