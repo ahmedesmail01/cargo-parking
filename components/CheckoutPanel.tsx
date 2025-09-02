@@ -85,12 +85,12 @@ export function CheckoutPanel() {
 
       {/* Result */}
       {data && (
-        <div className="space-y-3 bg-white/50 my-6 py-6 pb-10 px-4 sm:px-6 rounded-3xl">
-          <div className="text-sm sm:text-base text-white">
+        <div className="space-y-3 bg-white/50 !my-6 !py-6 !pb-10 !px-4 sm:!px-6 rounded-3xl">
+          <div className="text-sm sm:text-base  text-white">
             Check-in: {fmtTime(data.checkinAt)} → Checkout:{" "}
             {fmtTime(data.checkoutAt)} (hrs: {data.durationHours})
           </div>
-          <div className="inline-flex text-base sm:text-xl font-medium bg-custom-orange text-white px-4 py-2 rounded-2xl">
+          <div className="inline-flex text-base sm:text-xl font-medium bg-custom-orange text-white !px-4 !py-2 rounded-2xl">
             Amount: {fmtCurrency(data.amount)}
           </div>
 
