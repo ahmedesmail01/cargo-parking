@@ -92,7 +92,7 @@ export const useWs = create<
   _adminListeners: new Set(),
 
   subscribeGate: (gateId: string) => {
-    let ws = get().socket;
+    const ws = get().socket;
 
     // record intention first (dedupe)
     get().pendingSubs.add(gateId);

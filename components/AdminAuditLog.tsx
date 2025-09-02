@@ -76,7 +76,7 @@ export function AdminAuditLog() {
   // listen for admin updates
   useEffect(() => {
     const off = addAdminListener((payload) => {
-      setEvents((prev) => [payload, ...prev].slice(0, 100));
+      setEvents((prev) => [payload as AdminEvent, ...prev].slice(0, 100));
     });
     return off;
   }, [addAdminListener]);

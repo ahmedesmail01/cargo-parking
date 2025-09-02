@@ -11,7 +11,7 @@ import { ZoneCard } from "@/components/ZoneCard";
 import { TicketModal } from "@/components/TicketModal";
 import { SubscriberVerify } from "@/components/SubscriberVerify";
 import type { Zone } from "@/services/types";
-import { Loader2, WifiOff } from "lucide-react";
+import { Loader2 } from "lucide-react";
 
 export default function GatePage() {
   const { gateId } = useParams<{ gateId: string }>();

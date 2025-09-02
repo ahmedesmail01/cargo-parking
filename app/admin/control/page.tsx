@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button";
 import {
   useAdminOpenZone,
   useAdminUpdateCategory,
-  useAdminCreateRush,
   useAdminCreateVacation,
 } from "@/services/hooks";
 import RushHoursPanel from "@/components/admin/RushHoursPanel";
