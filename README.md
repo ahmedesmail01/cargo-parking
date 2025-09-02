@@ -2,6 +2,10 @@
 
 Below is a quick walkthrough of what's included, the tech stack, and a few notes about API gaps I encountered.
 
+## Screen record for the app runing local
+
+- \*\*https://drive.google.com/file/d/1J-JyOyEB2cL651Pl-52VnAvIk1EEDSEj/view?usp=sharing
+
 ## What's delivered
 
 ### Gate Screen — Check-in (`/gate/:gateId`)
